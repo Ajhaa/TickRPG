@@ -22,6 +22,7 @@ func _input(event):
 				for enemy in enemies:
 					if enemy.tile_coordinates == target:
 						$Player.target = weakref(enemy)
+						break
 					else:
 						_calculate_new_path(pos)
 						$Player.target = null
@@ -54,8 +55,8 @@ func _calculate_enemy_path():
 			enemy.path = path
 
 func _on_Timer_timeout():
-	#print($Player.target)
-	if enemies.size() < 1:
+	print("ENEMIES: " + str(enemies.size()))
+	if enemies.size() < 8:
 		create_enemy()
 	_calculate_enemy_path()
 	$Player.tile_coordinates = $TileMap.world_to_map($Player.position)
@@ -72,7 +73,11 @@ func _on_Timer_timeout():
 	$Player.move()
 	
 	for enemy in enemies:
-		#enemy.move()
+		var tile_id = $TileMap._get_id_for_point($TileMap.world_to_map(enemy.position))
+		$TileMap.astar.set_point_weight_scale(tile_id, 1)
+		enemy.move()
+		tile_id = $TileMap._get_id_for_point($TileMap.world_to_map(enemy.position))
+		$TileMap.astar.set_point_weight_scale(tile_id, 3)
 		enemy.tile_coordinates = $TileMap.world_to_map(enemy.position)
 		
 	if target && next_to(target):
@@ -86,7 +91,11 @@ func _on_Timer_timeout():
 func create_enemy():
 	var enemy = Enemy.instance()
 	add_child(enemy)
-	enemy.position = Vector2(200, 40)
+	var possible_positions = $TileMap.get_used_cells()
+	randomize()
+	var spawn_position = possible_positions[randi()%possible_positions.size()]
+	
+	enemy.position = $TileMap.map_to_world(spawn_position) + Vector2(40, 40)
 	enemies.append(enemy)
 	
 func next_to(enemy):

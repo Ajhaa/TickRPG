@@ -8,7 +8,7 @@
 [ext_resource path="res://Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Hitsplat.tscn" type="PackedScene" id=7]
 
-[node name="Node" type="Node"]
+[node name="Node" type="Node" index="0"]
 
 script = ExtResource( 1 )
 Enemy = ExtResource( 2 )

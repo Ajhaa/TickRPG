@@ -27,6 +27,9 @@ func _ready():
 func move():
 	if !path:
 		return
+	for enemy in get_parent().enemies:
+		if enemy.position == path[0]:
+			return
 	position = path[0]
 	path.remove(0)
 	
