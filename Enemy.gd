@@ -5,6 +5,7 @@ extends Area2D
 export (int) var hitpoints
 export (int) var damage
 export (int) var cooldown
+export (int) var aggro_distance
 export (PackedScene) var Hitsplat
 var max_cooldown
 
