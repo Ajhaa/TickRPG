@@ -16,6 +16,7 @@ collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform", "collision" ]
+Hitsplat = null
 hitpoints = 100
 damage = 20
 cooldown = 3
@@ -30,12 +31,12 @@ _sections_unfolded = [ "Offset", "Transform" ]
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Camera2D" type="Camera2D" parent="." index="2"]
+[node name="Camera" type="Camera2D" parent="." index="2"]
 
 anchor_mode = 1
 rotating = false
 current = true
-zoom = Vector2( 2, 2 )
+zoom = Vector2( 1, 1 )
 limit_left = -10000000
 limit_top = -10000000
 limit_right = 10000000

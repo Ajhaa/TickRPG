@@ -15,23 +15,25 @@ func _ready():
 	
 func _input(event):
 	if event is InputEventMouseButton:
-		var pos = $TileMap.get_global_mouse_position()
-		var target = $TileMap.world_to_map(pos)
-		for enemy in enemies:
-			if enemy.tile_coordinates == target:
-				$Player.target = weakref(enemy)
-			else:
-				_calculate_new_path(pos)
-				$Player.target = null
+		if event.is_pressed():
+			if event.button_index == BUTTON_LEFT:
+				var pos = $TileMap.get_global_mouse_position()
+				var target = $TileMap.world_to_map(pos)
+				for enemy in enemies:
+					if enemy.tile_coordinates == target:
+						$Player.target = weakref(enemy)
+					else:
+						_calculate_new_path(pos)
+						$Player.target = null
+			if event.button_index == BUTTON_WHEEL_UP:
+				$Player.zoom(-0.1)
+			if event.button_index == BUTTON_WHEEL_DOWN:
+				$Player.zoom(0.1)
 
 
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
-#func calculate_path_to_enemy():
-#	_calculate_new_path($Player.target.position)
-#	$Player.path.remove($Player.path.size()-1)
+func _process(delta):
+	pass
+
 
 func _calculate_new_path(target):
 	var path = $TileMap.get_path($Player.position, target)
@@ -76,7 +78,6 @@ func _on_Timer_timeout():
 	if target && next_to(target):
 		$Player.attack(target)
 		$Player.attacked = true
-		
 		if target.hitpoints <= 0:
 			enemies.erase(target)
 			target.queue_free()

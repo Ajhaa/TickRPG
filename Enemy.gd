@@ -5,6 +5,7 @@ extends Area2D
 export (int) var hitpoints
 export (int) var damage
 export (int) var cooldown
+export (PackedScene) var Hitsplat
 var max_cooldown
 
 var can_attack = false
@@ -38,3 +39,10 @@ func attack(target):
 	if cooldown == max_cooldown:
 		target.hitpoints -= damage
 		cooldown = 0
+		
+func damage(amount):
+	hitpoints -= amount
+	var splat = Hitsplat.instance()
+	splat.rect_position = global_position - Vector2(20,0)
+	splat.text = str(amount)
+	get_parent().add_child(splat)

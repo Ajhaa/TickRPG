@@ -5,6 +5,8 @@ extends KinematicBody2D
 # var b = "textvar"
 signal move
 
+export (PackedScene) var Hitsplat
+
 var can_attack = false
 var target
 var path
@@ -58,7 +60,16 @@ func attack(target):
 	if cooldown > max_cooldown:
 		cooldown = max_cooldown
 	if cooldown == max_cooldown:
-		print("POW")
-		target.hitpoints -= damage
+		target.damage(damage)
 		cooldown = 0
+		
+func zoom(amount):
+	if amount < 0:
+		if $Camera.zoom.x < 0.5:
+			return
+	if amount > 0:
+		if $Camera.zoom.x > 2:
+			return
+			
+	$Camera.zoom += Vector2(amount, amount)
 	
