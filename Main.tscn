@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://Enemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Map.tscn" type="PackedScene" id=3]
+[ext_resource path="res://NavigationMap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Timer.gd" type="Script" id=5]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=6]
+
+[node name="Node" type="Node"]
+
+script = ExtResource( 1 )
+Enemy = ExtResource( 2 )
+
+[node name="Mao" parent="." index="0" instance=ExtResource( 3 )]
+
+visible = false
+
+[node name="TileMap" parent="." index="1" instance=ExtResource( 4 )]
+
+_sections_unfolded = [ "Cell", "Visibility" ]
+
+[node name="Timer" type="Timer" parent="." index="2"]
+
+process_mode = 1
+wait_time = 0.6
+one_shot = false
+autostart = true
+script = ExtResource( 5 )
+
+[node name="Player" parent="." index="3" instance=ExtResource( 6 )]
+
+position = Vector2( 40, 40 )
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+
