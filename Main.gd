@@ -54,8 +54,8 @@ func _calculate_new_path(target):
 		
 func _calculate_enemy_path():
 	for enemy in enemies:
-#		if !aggro(enemy):
-#			continue
+		if !aggro(enemy):
+			continue
 		var dest = enemy.position
 		if enemy.destination:
 			dest = enemy.destination
@@ -83,9 +83,8 @@ func _on_Timer_timeout():
 	for enemy in enemies:
 		var tile_id = $TileMap._get_id_for_point($TileMap.world_to_map(enemy.position))
 		$TileMap.astar.set_point_weight_scale(tile_id, 1)
-		print(enemy.path)
+
 		enemy.move()
-		enemy.path = null
 		
 		tile_id = $TileMap._get_id_for_point($TileMap.world_to_map(enemy.position))
 		$TileMap.astar.set_point_weight_scale(tile_id, 3)
