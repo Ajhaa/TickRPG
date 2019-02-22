@@ -22,14 +22,6 @@ var should_move = false
 
 func _ready():
 	max_cooldown = cooldown
-	
-	
-# func _input(event):
-#	if event is InputEventMouseButton:
-#		var x = event.position.x
-#		var y = event.position.y
-#		target = Vector2(x, y)
-#		emit_signal("move")
 
 func _process(delta):
 	if should_move:
@@ -37,10 +29,6 @@ func _process(delta):
 		mvmt.x = sign(mvmt.x)*1 if mvmt.x != 0 else 0
 		mvmt.y = sign(mvmt.y)*1 if mvmt.y != 0 else 0
 		position += mvmt * speed * delta
-		
-		
-		
-
 
 func move():
 	if !path:
@@ -51,7 +39,6 @@ func move():
 	destination = path[0]
 	position.x = stepify(position.x, 10.0)
 	position.y = stepify(position.y, 10.0)
-	print(position)
 	path.remove(0)
 	if path.size() == 0:
 		path = null

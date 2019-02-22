@@ -5,6 +5,7 @@ extends Node
 # var b = "textvar"
 
 export (PackedScene) var Enemy
+export (int) var max_enemies
 var enemies = []
 var player
 var calculated = false
@@ -39,9 +40,8 @@ func _process(delta):
 		_calculate_enemy_path()
 	if player.target:
 		if player.target.get_ref():
-			if player.path:
-				_calculate_new_path(player.target.get_ref().position)
-				player.path.remove($Player.path.size()-1)
+			_calculate_new_path(player.target.get_ref().position)
+			player.path.remove($Player.path.size()-1)
 
 
 func _calculate_new_path(target):
@@ -54,9 +54,12 @@ func _calculate_new_path(target):
 		
 func _calculate_enemy_path():
 	for enemy in enemies:
-		if !aggro(enemy):
-			continue
-		var path = $TileMap.get_path(enemy.position, $Player.position)
+#		if !aggro(enemy):
+#			continue
+		var dest = enemy.position
+		if enemy.destination:
+			dest = enemy.destination
+		var path = $TileMap.get_path(dest, $Player.position)
 	
 		if path:
 			path.remove(0)
@@ -66,8 +69,7 @@ func _calculate_enemy_path():
 	calculated = true
 
 func _on_Timer_timeout():
-	print("ENEMIES: " + str(enemies.size()))
-	if enemies.size() < 8:
+	if enemies.size() < max_enemies:
 		create_enemy()
 		
 	player.tile_coordinates = $TileMap.world_to_map($Player.position)
@@ -81,14 +83,15 @@ func _on_Timer_timeout():
 	for enemy in enemies:
 		var tile_id = $TileMap._get_id_for_point($TileMap.world_to_map(enemy.position))
 		$TileMap.astar.set_point_weight_scale(tile_id, 1)
-		
+		print(enemy.path)
 		enemy.move()
+		enemy.path = null
 		
 		tile_id = $TileMap._get_id_for_point($TileMap.world_to_map(enemy.position))
 		$TileMap.astar.set_point_weight_scale(tile_id, 3)
 		
 		enemy.tile_coordinates = $TileMap.world_to_map(enemy.position)
-		
+	
 	calculated = false
 		
 	if target && next_to(target):
