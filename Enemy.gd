@@ -30,11 +30,12 @@ func _process(delta):
 		position += mvmt * speed * delta
 
 func move():
+	print(path)
 	if !path:
 		should_move = false
 		destination = null
 		return
-		
+	
 	position.x = stepify(position.x, 10.0)
 	position.y = stepify(position.y, 10.0)
 	

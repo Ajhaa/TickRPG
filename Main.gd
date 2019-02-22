@@ -59,13 +59,15 @@ func _calculate_enemy_path():
 		var dest = enemy.position
 		if enemy.destination:
 			dest = enemy.destination
-		var path = $TileMap.get_path(dest, $Player.position)
+			
+		var p_dest = player.destination if player.destination else player.position 
+		var path = $TileMap.get_path(dest, p_dest)
 	
 		if path:
 			path.remove(0)
 			path.remove(path.size()-1)
-		
 			enemy.path = path
+			
 	calculated = true
 
 func _on_Timer_timeout():
